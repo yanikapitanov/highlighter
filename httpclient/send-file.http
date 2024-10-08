@@ -1,0 +1,3 @@
+### Uploads the file to the API
+POST http://localhost:8080/api/upload
+Content-Type: ""
