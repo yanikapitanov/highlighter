@@ -17,5 +17,5 @@ def show_form(request: Request):
 @app.post("/api/upload")
 async def upload(file: UploadFile):
     prs = Parser(file)
-    res = prs.parse()
-    return {"len": file.file.read().decode()}
+    highlights = prs.parse()
+    return {"highlights": [highlight for highlight in highlights if highlight is not None]}

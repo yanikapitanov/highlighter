@@ -1,5 +1,5 @@
 """Something to parse"""
-from typing import List
+from typing import List, Union
 
 from fastapi import UploadFile
 
@@ -14,13 +14,15 @@ class Parser:
 
     def parse(self) -> List[Highlight]:
         """Something wicked this way comes"""
-        res = self.file.file.read().decode().split("==========")
-        return [mapper(r) for r in res]
+        highlights = self.file.file.read().decode("utf-8").replace("\r\n", "\n").lstrip("\ufeff").split("==========")
+        return [Parser.map_highlight(highlight) for highlight in highlights]
 
-
-def mapper(chunk: str) -> Highlight:
-    line = chunk.split("\n")
-    split_index = line[0].rfind("(")
-    author = line[split_index:][0].replace(")", "")
-    title = line[:split_index]
-    return Highlight(title, author, line)
+    @staticmethod
+    def map_highlight(chunk: str) -> Union[Highlight, None]:
+        line = [line for line in chunk.split("\n") if line != ""]
+        if len(line) < 3:
+            return None
+        split_index = line[0].rfind("(")
+        author = line[0][split_index:].replace(")", "").replace("(", "").strip()
+        title = line[0][:split_index].strip().lstrip("\ufeff")
+        return Highlight(title, author, line[2].strip())
