@@ -1,6 +1,13 @@
 ### Uploads the file to the API
-POST http://localhost:8080/api/highlight
-Content-Type: ""
+POST http://127.0.0.1:8000/api/highlight
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="highlights.txt"
+Content-Type: text/plain
+
+< highlights.txt
+--boundary--
 
 ###
 GET http://127.0.0.1:8000/api/highlight
