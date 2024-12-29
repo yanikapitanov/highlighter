@@ -3,9 +3,9 @@ from typing import List
 from fastapi import UploadFile
 from sqlmodel import Session
 
-from model.models import Highlight
-from parser import Parser
-from persistence.database import HighlightEntity
+from app.model.models import Highlight
+from app.logic.parser import Parser
+from app.persistence.database import HighlightEntity
 
 
 def save_highlights(session: Session, file: UploadFile) -> List[Highlight]:
@@ -14,3 +14,6 @@ def save_highlights(session: Session, file: UploadFile) -> List[Highlight]:
     [session.add(entity) for entity in entities]
     session.commit()
     return highlights
+
+def fetch_all(session: Session) -> List[Highlight]:
+    return session.query(HighlightEntity).all()

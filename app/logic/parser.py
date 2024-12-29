@@ -3,7 +3,7 @@ from typing import List, Union
 
 from fastapi import UploadFile
 
-from model.models import Highlight
+from app.model.models import Highlight
 
 
 class Parser:

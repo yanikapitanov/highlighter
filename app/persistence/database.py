@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, List
 
 from fastapi import Depends
 from sqlalchemy import create_engine
@@ -12,11 +12,14 @@ class HighlightEntity(SQLModel, table=True):
     content: str = Field(index=False)
 
 
-postgres_url = "postgresql://myuser:mypassword@localhost:5432/dbs_highlighter"
-engine = create_engine(postgres_url, echo=True, future=True)
+sqlite_file_name = "database.db"
+sqlite_url = f"sqlite:///{sqlite_file_name}"
+
+connect_args = {"check_same_thread": False}
+engine = create_engine(sqlite_url, connect_args=connect_args)
+
 
 def create_db_and_tables():
-    SQLModel.metadata.schema = "scm_highlighter"
     SQLModel.metadata.create_all(engine)
 
 
