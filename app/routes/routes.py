@@ -2,12 +2,14 @@ from fastapi import APIRouter, UploadFile, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
-from app.logic.highlight_service import save_highlights, fetch_all
+from app.logic.highlight_service import save_highlights, fetch_all, save
+from app.model.models import Highlight
 from app.persistence.database import create_db_and_tables, SessionDep
 
 templates = Jinja2Templates(directory="templates")
 
 router = APIRouter()
+
 
 @router.on_event("startup")
 def on_startup():
@@ -20,6 +22,12 @@ def show_form(request: Request):
 
 
 @router.post("/api/highlight")
+async def create(highlight: Highlight, session: SessionDep):
+    h = save(session, highlight)
+    return h
+
+
+@router.patch("/api/highlight")
 async def upload(file: UploadFile, session: SessionDep):
     highlights = save_highlights(session, file)
     return {"highlights": highlights}

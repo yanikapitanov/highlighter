@@ -25,4 +25,4 @@ class Parser:
         split_index = line[0].rfind("(")
         author = line[0][split_index:].replace(")", "").replace("(", "").strip()
         title = line[0][:split_index].strip().lstrip("\ufeff")
-        return Highlight(title, author, line[2].strip())
+        return Highlight(title=title, author=author, content=line[2].strip())

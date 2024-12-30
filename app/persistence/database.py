@@ -1,4 +1,4 @@
-from typing import Annotated, List
+from typing import Annotated
 
 from fastapi import Depends
 from sqlalchemy import create_engine
@@ -10,6 +10,10 @@ class HighlightEntity(SQLModel, table=True):
     author: str = Field(index=True)
     title: str = Field(index=True)
     content: str = Field(index=False)
+    hash: int = Field(index=True)
+
+    def __hash__(self):
+        return hash(self.content)
 
 
 sqlite_file_name = "database.db"

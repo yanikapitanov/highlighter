@@ -1,5 +1,5 @@
 ### Uploads the file to the API
-POST http://127.0.0.1:8000/api/highlight
+PATCH http://127.0.0.1:8000/api/highlight
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
@@ -11,3 +11,13 @@ Content-Type: text/plain
 
 ###
 GET http://127.0.0.1:8000/api/highlight
+
+###
+POST http://localhost:8000/api/highlight
+Content-Type: application/json
+
+{
+  "title": "Some Title",
+  "author": "An Author",
+  "content": "Some Content"
+}
